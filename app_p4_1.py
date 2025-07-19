@@ -39,7 +39,7 @@ volumen_total = st.sidebar.slider(
     max_value=100,
     value=20,
     step=5,
-    help="Volumen total de producto plant-based producido anualmente."
+    help="Volumen total de producto producido anualmente." # Simplified help text
 )
 
 factor_gei_kg = st.sidebar.slider(
@@ -48,7 +48,7 @@ factor_gei_kg = st.sidebar.slider(
     max_value=4.5,
     value=4.1,
     step=0.1,
-    help="Factor de emisiones de GEI evitadas por tonelada de producto plant-based."
+    help="Emisiones de GEI evitadas por tonelada de producto." # Simplified help text
 )
 
 factor_agua_litros = st.sidebar.slider(
@@ -57,7 +57,7 @@ factor_agua_litros = st.sidebar.slider(
     max_value=2000,
     value=1500,
     step=100,
-    help="Diferencia en el uso de agua entre la producción de carne y la alternativa plant-based, por kg de producto."
+    help="Ahorro de agua por kg de carne reemplazada." # Simplified help text
 )
 
 factor_sustitucion = st.sidebar.slider(
@@ -67,7 +67,7 @@ factor_sustitucion = st.sidebar.slider(
     value=0.3,
     step=0.01,
     format='.1%',
-    help="Porcentaje de insumos sintéticos que son reemplazados por ingredientes naturales."
+    help="Porcentaje de insumos sintéticos reemplazados por naturales." # Simplified help text
 )
 
 precio_mercado = st.sidebar.slider(
@@ -76,7 +76,7 @@ precio_mercado = st.sidebar.slider(
     max_value=15000,
     value=10000,
     step=500,
-    help="Precio de venta estimado por tonelada de producto plant-based."
+    help="Precio de venta estimado por tonelada." # Simplified help text
 )
 
 # --- Cálculos de Indicadores ---
@@ -125,7 +125,7 @@ st.header('📊 Análisis Gráfico de Impactos')
 
 # --- Visualización (Gráficos 2D con Matplotlib) ---
 # Datos línea base (según ficha)
-# En el script original de Colab, tenías base_gei, base_agua, base_ingrepl, base_ingresos.
+# En el script original, tenías base_gei, base_agua, base_ingrepl, base_ingresos.
 # Para P4, si son "evitados" o "generados", la línea base para la *métrica de impacto* debería ser 0
 # o un valor de referencia pre-proyecto.
 # Basado en tu Ficha_Tecnica_P4.docx, no hay valores numéricos específicos de línea base en el "Resumen Ejecutivo".
@@ -137,7 +137,7 @@ st.header('📊 Análisis Gráfico de Impactos')
 
 # Utilizaremos los valores de "base" de tu script original como la "Línea Base" para la comparación en los gráficos.
 base_gei = 82
-base_agua = 270  # en m³
+base_agua = 270   # en m³
 base_ingrepl = 6
 base_ingresos = 200000
 
