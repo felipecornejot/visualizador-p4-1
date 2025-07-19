@@ -39,7 +39,7 @@ volumen_total = st.sidebar.slider(
     max_value=100,
     value=20,
     step=5,
-    help="Volumen total de producto producido anualmente." # Simplified help text
+    help="Volumen total de producto producido anualmente."
 )
 
 factor_gei_kg = st.sidebar.slider(
@@ -48,7 +48,7 @@ factor_gei_kg = st.sidebar.slider(
     max_value=4.5,
     value=4.1,
     step=0.1,
-    help="Emisiones de GEI evitadas por tonelada de producto." # Simplified help text
+    help="Emisiones de GEI evitadas por tonelada de producto."
 )
 
 factor_agua_litros = st.sidebar.slider(
@@ -57,17 +57,20 @@ factor_agua_litros = st.sidebar.slider(
     max_value=2000,
     value=1500,
     step=100,
-    help="Ahorro de agua por kg de carne reemplazada." # Simplified help text
+    help="Ahorro de agua por kg de carne reemplazada."
 )
 
+# Changed 'format='.1%' to simply a label without the explicit '%' sign in the label itself
+# and removed format parameter to see if that's the culprit.
+# We can format it in the calculation display later if needed.
 factor_sustitucion = st.sidebar.slider(
-    'Factor de Sustitución de Insumos Sintéticos (%):',
+    'Factor de Sustitución de Insumos Sintéticos (decimal):', # Changed label
     min_value=0.1,
     max_value=0.5,
     value=0.3,
     step=0.01,
-    format='.1%',
-    help="Porcentaje de insumos sintéticos reemplazados por naturales." # Simplified help text
+    # format='.1%', # Removed this to see if it's the issue. We'll format it manually if needed.
+    help="Porcentaje de insumos sintéticos reemplazados por naturales (ej. 0.3 para 30%)." # Simplified help
 )
 
 precio_mercado = st.sidebar.slider(
@@ -76,17 +79,12 @@ precio_mercado = st.sidebar.slider(
     max_value=15000,
     value=10000,
     step=500,
-    help="Precio de venta estimado por tonelada." # Simplified help text
+    help="Precio de venta estimado por tonelada."
 )
 
 # --- Cálculos de Indicadores ---
 gei_ev_ev = volumen_total * factor_gei_kg
-# En tu script original, factor_agua_litros era el "ahorro" por kg, y el cálculo era (15000 - 1500).
-# Para mantener la coherencia con el slider (que representa el ahorro por kg), usaremos directamente
-# volumen_total * factor_agua_litros * 1000 para convertir ton a kg y luego a litros, o ajustar el slider.
-# Si factor_agua_litros ya es la diferencia total por kg, entonces es volumen_total * factor_agua_litros * 1000
-# El valor en la ficha era 15000 (carne) - 1500 (plant-based) = 13500 L/kg. Si el slider es esta diferencia, entonces:
-agua_ahorrada_litros = volumen_total * factor_agua_litros * 1000 # Convertir ton a kg, y luego a litros
+agua_ahorrada_litros = volumen_total * factor_agua_litros * 1000
 ingredientes_reemplazados = volumen_total * factor_sustitucion
 ingresos_estimados = volumen_total * precio_mercado
 empleos_generados = 3
@@ -104,6 +102,7 @@ with col2:
     st.metric(label="💧 **Agua Ahorrada**", value=f"{agua_ahorrada_litros/1000:.2f} m³/año")
     st.caption("Ahorro de agua en el proceso productivo.")
 with col3:
+    # Now, format the replaced ingredients as a percentage if factor_sustitucion was meant to be displayed as such
     st.metric(label="♻️ **Insumos Sintéticos Reemplazados**", value=f"{ingredientes_reemplazados:.2f} ton/año")
     st.caption("Cantidad de ingredientes sintéticos sustituidos por naturales.")
 
@@ -124,18 +123,6 @@ st.markdown("---")
 st.header('📊 Análisis Gráfico de Impactos')
 
 # --- Visualización (Gráficos 2D con Matplotlib) ---
-# Datos línea base (según ficha)
-# En el script original, tenías base_gei, base_agua, base_ingrepl, base_ingresos.
-# Para P4, si son "evitados" o "generados", la línea base para la *métrica de impacto* debería ser 0
-# o un valor de referencia pre-proyecto.
-# Basado en tu Ficha_Tecnica_P4.docx, no hay valores numéricos específicos de línea base en el "Resumen Ejecutivo".
-# Sin embargo, los impactos son "reducir significativamente las emisiones", "fortalecimiento de cadena de suministro local".
-# Si la "línea base" es la situación sin el proyecto (donde no se evitaba GEI, no se ahorraba agua, no se reemplazaban insumos),
-# entonces la línea base para estos "impactos positivos" es 0.
-# Los valores de "base" en tu script de Colab parecen ser valores de ejemplo o preexistentes,
-# los mantendremos para los gráficos como "Línea Base" aunque para "evitado" o "generado" podrían ser 0 lógicamente.
-
-# Utilizaremos los valores de "base" de tu script original como la "Línea Base" para la comparación en los gráficos.
 base_gei = 82
 base_agua = 270   # en m³
 base_ingrepl = 6
